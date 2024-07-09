@@ -16,25 +16,26 @@ img_point_cov : 1000 #100
 laser_point_cov : 0.001 #0.001
 
 common:
-    lid_topic:  "/velodyne_points"
-    imu_topic:  ""
+    lid_topic:  "/hesai/pandar/"
+    imu_topic:  "/alphasense_driver_ros/imu"
 
 preprocess:
-    lidar_type: 2               # Velodyne Lidar
+    lidar_type: 5               # Hesai LiDAR
     scan_line: 64
-    blind: 1 # blind x m disable
-    calib_laser: true              # true for KITTI Odometry dataset
+    blind: 1.0 # blind x m disable
 
 mapping:
-    imu_en: false
+    imu_en: true
     imu_int_frame: 30
-    acc_cov: 1.0
-    gyr_cov: 0.5
+    acc_cov: 5.0
+    gyr_cov: 0.3
+    b_acc_cov: 0.01
+    b_gyr_cov: 0.01
     fov_degree:    180
-    extrinsic_T: [ 0.0, 0.0, 0.0]
-    extrinsic_R: [ 1, 0, 0,
-                   0, 1, 0,
-                   0, 0, 1]
+    extrinsic_T: [ -0.00459163, -0.00200303, -0.0547992 ]
+    extrinsic_R: [ -0.0106465,  -0.999911, 0.00806769,
+                   0.999941,  -0.0106296, 0.00171369,
+                   -0.00166849, 0.00808546,  0.999966]
 
 voxel:
     voxel_map_en: true

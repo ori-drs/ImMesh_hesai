@@ -11,6 +11,8 @@ typedef pcl::PointCloud<PointType> PointCloudXYZI;
 typedef std::vector<PointType, Eigen::aligned_allocator<PointType>>  PointVector;
 typedef pcl::PointCloud<PointTypeRGB> PointCloudXYZRGB;
 
+typedef pcl::PointCloud<PointType> PointCloudType;
+
 typedef Eigen::Vector2f V2F;
 typedef Eigen::Vector2d V2D;
 typedef Eigen::Vector3d V3D;

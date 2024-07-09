@@ -1,0 +1,19 @@
+<launch>
+
+	<rosparam command="load" file="$(find ImMesh)/config/hesai_ox.yaml" />
+	<param name="meshing/distance_scale" type="double" value="1.0" /> 
+	<arg name="rviz" default="false" />
+	<param name="gui_font_size" type="int" value="20" /> 
+	
+	<node pkg="ImMesh" type="ImMesh_mapping" name="laserMapping" output="screen">
+	</node>
+	
+	<!-- 
+	<arg name="bag_name" value="/home/ziv/data/oxford_datas/bleheim.bag" /> 
+	<node pkg="rosbag" type="play" name="rosbag" args="-r 2.0 -s 0 -q -d 2.0 -u 3000000.00 $(arg bag_name)"  output="screen"/>
+	-->
+
+	<group if="$(arg rviz)">
+		<node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find fast_lio)/rviz_cfg/loam_livox.rviz" />
+	</group>
+</launch> 	
