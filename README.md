@@ -1,5 +1,20 @@
 # ImMesh: An **Im**mediate LiDAR Localization and **Mesh**ing Framework
 
+## For Hesai sensor
+- follow original instruction to install all prerequisite
+- follow below instruction to run hesai bag
+```
+# download and build
+git clone https://github.com/ori-drs/ImMesh_hesai.git
+mv ImMesh_hesai ImMesh
+catkin build
+
+# launch
+roslaunch ImMesh mapping_new_college_hesai.launch
+
+# play bag
+rosbag play xxx.bag
+```
 
 ## News (Jan, 2024): Release of Code
 
