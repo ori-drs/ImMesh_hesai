@@ -53,6 +53,8 @@ different license.
 #include "ikd-Tree/ikd_Tree.h"
 #include "voxel_loc.hpp"
 
+#include <std_msgs/String.h>
+
 #define INIT_TIME ( 0.0 )
 #define MAXN ( 360000 )
 #define PUBFRAME_PERIOD ( 20 )
@@ -359,6 +361,8 @@ class Voxel_mapping
     void livox_pcl_cbk( const livox_ros_driver::CustomMsg::ConstPtr &msg );
 
     void imu_cbk( const sensor_msgs::Imu::ConstPtr &msg_in );
+
+    void save_command_cbk( const std_msgs::String::ConstPtr &msg );
 
     bool sync_packages( LidarMeasureGroup &meas );
 

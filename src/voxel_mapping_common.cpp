@@ -39,6 +39,7 @@ different license.
  POSSIBILITY OF SUCH DAMAGE.
 */
 #include "voxel_mapping.hpp"
+#include "mesh_rec_geometry.hpp"
 
 void Voxel_mapping::kitti_log( FILE *fp )
 {
@@ -367,6 +368,19 @@ void Voxel_mapping::imu_cbk( const sensor_msgs::Imu::ConstPtr &msg_in )
     // cout<<"got imu: "<<timestamp<<" imu size "<<imu_buffer.size()<<endl;
     m_mutex_buffer.unlock();
     m_sig_buffer.notify_all();
+}
+
+// Callback function for the save command
+void Voxel_mapping::save_command_cbk(const std_msgs::String::ConstPtr& msg)
+{
+    // composing file_path
+    std::string result_folder_and_prefix = msg->data;
+    std::string ply_path = result_folder_and_prefix + ".ply";
+
+    // save to file
+    float  g_ply_smooth_factor = 1.0; 
+    int    g_ply_smooth_k = 20.0;
+    save_to_ply_file(ply_path, g_ply_smooth_factor, g_ply_smooth_k );
 }
 
 bool Voxel_mapping::sync_packages( LidarMeasureGroup &meas )

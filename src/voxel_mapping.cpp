@@ -1674,6 +1674,7 @@ int Voxel_mapping::service_LiDAR_update()
     }
     // }
     ros::Subscriber sub_imu = m_ros_node_ptr->subscribe( m_imu_topic, 200000, &Voxel_mapping::imu_cbk, this );
+    ros::Subscriber sub_save = m_ros_node_ptr->subscribe("/save_command", 10, &Voxel_mapping::save_command_cbk, this);
     // ros::Subscriber sub_img = m_ros_node_ptr->subscribe(m_img_topic, 200000, img_cbk);
     ros::Publisher pubLaserCloudFullRes = m_ros_node_ptr->advertise< sensor_msgs::PointCloud2 >( "/cloud_registered", 100 );
     ros::Publisher pubLaserCloudVoxel = m_ros_node_ptr->advertise< sensor_msgs::PointCloud2 >( "/cloud_voxel", 100 );
