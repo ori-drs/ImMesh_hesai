@@ -1,0 +1,10 @@
+<launch>
+
+	<rosparam command="load" file="$(find ImMesh)/config/hesai_ox.yaml" />
+	<param name="meshing/distance_scale" type="double" value="1.0" /> 
+	<param name="gui_font_size" type="int" value="20" /> 
+	
+	<node pkg="ImMesh" type="ImMesh_mapping" name="laserMapping" output="screen">
+	</node>
+	
+</launch> 	
