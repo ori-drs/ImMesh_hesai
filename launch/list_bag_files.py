@@ -3,12 +3,13 @@
 import os
 
 # traverse all folders and subfolders to find all bag files
+# skip if under trajectory folder
 def list_bag_files(folder):
     bag_files = []
     for root, dirs, files in os.walk(folder):
         for file in files:
             # if end with .bag and not end with _path.bag
-            if file.endswith('.bag') and not file.endswith('_path.bag'):
+            if file.endswith('.bag') and not file.endswith('_path.bag') and 'trajectories' not in root:
                 bag_files.append(os.path.join(root, file))
     return bag_files
 
