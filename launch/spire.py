@@ -2,18 +2,25 @@ import os
 import time
 import subprocess
 
+import list_bag_files
+
 def main():
 
-    # data
-    bag_files = [
-        '/home/jiahao/datasets/radcliff/1716181664_2024-05-20-06-07-45_0.bag',
-    ]   
+    # # example data
+    # bag_files = ['/home/jiahao/datasets/radcliff/1716181664_2024-05-20-06-07-45_0.bag']
+
+    # real data
+    bag_files = list_bag_files.list_bag_files('/home/jiahao/datasets/Oxford-Spires/')
+
+    # log
+    print('Total bag files: ' + str(len(bag_files)))
 
     # loop through all bag files
-    for bag_file in bag_files:
-
+    for i in range(len(bag_files)):
+        bag_file = bag_files[i]
+        
         # print
-        print('Processing: ' + bag_file)
+        print('Processing: (' + str(i+1) + '/' + str(len(bag_files)) + ') ' + bag_file)
 
         # process paths
         result_folder = bag_file.replace('.bag', '') + '_ImMesh/'
@@ -34,7 +41,7 @@ def main():
         rosbag_record_process = subprocess.Popen('rosbag record -O ' + rosbag_record_file_path + ' ' + rosbag_record_topics + ' __name:=' + rosbag_record_node_name, shell = True)
 
         # RUN play bag file
-        play_bag_option = '-r 2 -s 0 -u 4'
+        play_bag_option = '-r 2'
         subprocess.run('rosbag play ' + bag_file + ' ' + play_bag_option, shell = True)
 
         # END record
