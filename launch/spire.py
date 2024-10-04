@@ -2,7 +2,8 @@ import os
 import time
 import subprocess
 
-import list_bag_files
+from list_bag_files import list_bag_files
+from list_bag_files import convert_string_to_list
 
 def main():
 
@@ -10,21 +11,25 @@ def main():
     # bag_files = ['/home/jiahao/datasets/radcliff/1716181664_2024-05-20-06-07-45_0.bag']
 
     # real data
-    bag_files = list_bag_files.list_bag_files('/home/jiahao/datasets/Oxford-Spires/')
+    mission_list = convert_string_to_list('''/home/jiahao/datasets/Oxford-Spires/Christ-Church/rosbag/1710927712
+                                          /home/jiahao/datasets/Oxford-Spires/Blenheim/rosbag/1710410169-ethan-walk-for-lintong
+                                          /home/jiahao/datasets/Oxford-Spires/Keble/rosbag/1710252275''')
 
     # log
-    print('Total bag files: ' + str(len(bag_files)))
+    print('Total missions: ' + str(len(mission_list)))
 
     # loop through all bag files
-    for i in range(len(bag_files)):
-        bag_file = bag_files[i]
+    for i in range(len(mission_list)):
+        mission_folder = mission_list[i]
         
         # print
-        print('Processing: (' + str(i+1) + '/' + str(len(bag_files)) + ') ' + bag_file)
+        print('Processing: (' + str(i+1) + '/' + str(len(mission_list)) + ') ' + mission_folder)
 
         # process paths
-        result_folder = bag_file.replace('.bag', '') + '_ImMesh/'
-        prefix = bag_file.split('/')[-1].split('.')[0]
+        mission_location = mission_folder.split('/')[-3]
+        mission_timestamp = mission_folder.split('/')[-1]
+        result_folder = '/home/jiahao/datasets/Oxford-Spires_ImMesh2/' + mission_location + '_' + mission_timestamp + '/'
+        prefix = mission_location + '_' + mission_timestamp
         result_folder_and_prefix = result_folder + prefix
 
         # create folder
@@ -41,8 +46,8 @@ def main():
         rosbag_record_process = subprocess.Popen('rosbag record -O ' + rosbag_record_file_path + ' ' + rosbag_record_topics + ' __name:=' + rosbag_record_node_name, shell = True)
 
         # RUN play bag file
-        play_bag_option = '-r 2'
-        subprocess.run('rosbag play ' + bag_file + ' ' + play_bag_option, shell = True)
+        play_bag_option = '-r 1'
+        subprocess.run('rosbag play ' + mission_folder + '/17*.bag ' + play_bag_option, shell = True)
 
         # END record
         rosbag_record_process.terminate()
@@ -50,6 +55,8 @@ def main():
 
         # RUN send save command
         subprocess.run('rostopic pub --once /save_command std_msgs/String "' + result_folder_and_prefix + '"', shell = True) # will default latch for 3 second, enough for ImMesh to save
+        time.sleep(60) # wait for ImMesh to save
+
 
         # END ImMesh
         ImMesh_process.terminate()
